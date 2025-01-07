@@ -3,6 +3,7 @@ package com.namesic.novembertest.controller;
 
 import com.namesic.novembertest.dto.AccountDto;
 import com.namesic.novembertest.service.AccountService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -43,5 +44,14 @@ public class AccountController {
     public String login() {
         return "account/login";
     }
-
+    @PostMapping("/login")
+    public String login(AccountDto aDto, HttpSession session) {
+        String a_id = aSer.serviceLogin(aDto);
+        if(a_id != null){
+            session.setAttribute("a_id", a_id);
+            return "redirect:/";
+        }else{
+            return "account/login";
+        }
+    }
 }
