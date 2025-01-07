@@ -3,23 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        function idCheck(){
-            let idData = $()
-            axios
+        function idCheck() {
+            let data = {};
+            const a_id = $('#a_id');
+            data.a_id = a_id.val();
 
+            axios.post('idCheck', data)
+                .then(res => {
+                    if (res.data) {
+                        $('#idCheck').text('사용 가능한 아이디 입니다.');
+                        $('#idCheckVal').val(1);
+                    } else {
+                        $('#idCheck').text('이미 사용중인 아이디 입니다.');
+                        $('#idCheckVal').val(0);
+                    }
+                })
+                .catch(err => {
+                    $('#idCheck').text('');
+                    $('#idCheckVal').val(0);
+                })
+        }
+
+        function pwCheck() {
+            const a_pw = $('#a_pw');
+            console.log(a_pw.val())
+            if (a_pw.val() != '') {
+                if (a_pw.val() == $('#a_pw2').val()) {
+                    $('#pwCheckLo').text('비밀번호가 일치 합니다.');
+                    $('#pwCheckVal').val(1);
+                } else {
+                    $('#pwCheckLo').text('비밀번호가 일치하지 않습니다.');
+                    $('#pwCheckVal').val(0);
+                }
+            } else {
+                $('#pwCheckLo').text('');
+                $('#pwCheckVal').val(0);
+            }
+        }
+
+        function joinCheck(){
+            const a_id = $('#a_id');
+            if (a_id.val() == '') {
+                alert('아이디를 입력해주세요');
+                a_id.focus();
+                return false;
+            }
+            const idCheckVal = $('#idCheckVal');
+            if (idCheckVal.val() == 0) {
+                alert('이미 사용중인 아이디 입니다.');
+                a_id.focus();
+                return false;
+            }
+            const a_pw = $('#a_pw');
+            if (a_pw.val() == '') {
+                alert('비밀번호를 입력해주세요');
+                a_pw.focus();
+                return false;
+            }
+            const pwCheckVal = $('#pwCheckVal');
+            if (pwCheckVal.val() == 0) {
+                alert('비밀번호가 일치하지 않습니다.');
+                $('#a_pw2').focus();
+                return false;
+            }
+
+            $('#joinFrm').submit();
         }
     </script>
 </head>
 <body>
-    <form th:action="@{/account/join}" method="post">
-        아이디 <input type="text" name="a_id" onblur="idCheck()"><br>
-        비밀번호 <input type="password" name="a_pw"><br>
-        이름 <input type="text" name="a_name"><br>
-        생년월일 <input type="text" name="a_birth"><br>
-        <!-- <버튼> 으로 만들면 오로지 버튼만 가능, <인풋> 은 여러 함수를 담을 수 있 -->
-        <input type="submit" value="회원가입">
-    </form>
+<form th:action="@{/account/join}" id="joinFrm" method="post">
+    아이디
+    <input type="text" name="a_id" onblur="idCheck()" id="a_id">
+    <span id="idCheck"></span><br>
+    <input id="idCheckVal" type="hidden" value="0">
+
+    비밀번호
+    <input type="password" name="a_pw" id="a_pw"><br>
+    비밀번호 확인
+    <input type="password" id="a_pw2" onblur="pwCheck()">
+    <span id="pwCheckLo"></span><br>
+    <input id="pwCheckVal" type="hidden" value="0">
+
+    이름 <input type="text" name="a_name"><br>
+
+    생년월일 <input type="text" name="a_birth"><br>
+
+    <!-- <버튼> 으로 만들면 오로지 버튼만 가능, <인풋> 은 여러 함수를 담을 수 있 -->
+    <input type="button" id="joinBtn" value="회원가입" onclick="joinCheck()">
+</form>
 </body>
 </html>

@@ -6,9 +6,7 @@ import com.namesic.novembertest.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
     private final AccountService aSer;
 
+//-------------------------------------------------------------------
     @GetMapping("/join")
     public String join() {
         return "account/join";
@@ -29,7 +28,17 @@ public class AccountController {
         }
         return "account/join";
     }
+    @PostMapping("/idCheck")
+    @ResponseBody
+    public boolean idCheck(@RequestBody AccountDto aDto){
+        if(aSer.idCheck(aDto.getA_id())){
+            return false;
+        }
+        return true;
+    }
 
+
+    //-------------------------------------------------------------------
     @GetMapping("/login")
     public String login() {
         return "account/login";
