@@ -54,4 +54,12 @@ public class AccountController {
             return "account/login";
         }
     }
+    //-------------------------------------------------------------------
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        //invalidate() 세션에 남아있는 모든걸 지움
+        session.invalidate();
+        return "redirect:/";
+    }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/post/write" method="post" enctype="multipart/form-data">
+    <h1>write.html</h1>
+    <input type="hidden" name="a_id" th:value="${session.account?.a_id}">
+    <input type="text" name="p_title" autofocus placeholder="제목" required><br>
+    <textarea name="p_contents" rows="15" placeholder="내용을 입력하세요."></textarea>
+
+    <div class="filebox">
+        <br>
+        <input type="file" name="attachments" id="attachments" multiple><br>
+        <input type="text" class="upload-name" value="선택된 파일" readonly>
+    </div>
+
+    <div class="btn-area">
+        <br>
+        <input type="submit" value="올리기">
+        <input type="reset" value="다시쓰기">
+        <input type="button" value="게시판" onclick="backbtn()">
+    </div>
+</form>
+<script th:inline="javascript">
+    function backbtn(){
+        let url = "/post?"
+        let col
+    }
+</script>
+
+</body>
+</html>

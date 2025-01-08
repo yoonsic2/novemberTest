@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script>
+    $(() => {
+        if(`[[${session.a_id}]]`){
+            $('.login').css('display', 'none');
+            $('.logout').css('display', 'block');
+        }else{
+            $('.login').css('display', 'block');
+            $('.logout').css('display', 'none');
+        }
+    });
+</script>
 <body>
-    <h1> index.html </h1>
-    <!-- a태그 는 무조건 Get방식! => 자동적으로 겟맵핑 떠올려 -->
-    <a th:href="@{/account/login}" th:text="로그인"></a>
-    <a th:href="@{/account/join}" th:text="회원가입"></a>
+    <h2 th:text="${session.a_id}+' 님 환영합니다.'"></h2>
+    <div class="login">
+        <!-- a태그 는 무조건 Get방식! => 자동적으로 겟맵핑 떠올려 -->
+        <a th:href="@{/account/login}" th:text="로그인"></a>
+        <a th:href="@{/account/join}" th:text="회원가입"></a>
+    </div>
+    <div class="logout">
+        <a th:href="@{/account/logout}" th:text="로그아웃"></a>
+        <a th:href="@{/post/list}" th:text="게시판"></a>
+    </div>
 </body>
 </html>
