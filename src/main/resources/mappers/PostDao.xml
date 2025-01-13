@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.namesic.novembertest.dao.PostDao">
+
+    <update id="postUpload" parameterType="postDto" useGeneratedKeys="true" keyProperty="p_number">
+        INSERT INTO POST
+        VALUES (NULL, #{a_id}, #{p_title}, #{p_contents})
+    </update>
+
+
+    <insert id="postFileInsert">
+        INSERT INTO POSTFILE
+        VALUES (#{pf_systemname}, #{p_number}, #{pf_originalname})
+    </insert>
+
+</mapper>

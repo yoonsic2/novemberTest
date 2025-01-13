@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        const m = '[[${msg}]]';
+        if (m != '') {
+            alert(m);
+        }
+    </script>
 </head>
 <body>
-  <h1>list.html</h1>
-    <a th:href="@{/post/write}" th:text="글작성"></a>
+<h1>list.html</h1>
+<a th:href="@{/post/write}" th:text="글작성"></a>
 </body>
 </html>

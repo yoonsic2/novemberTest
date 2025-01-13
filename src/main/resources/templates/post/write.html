@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        const m = '[[${msg}]]';
+        if (m != '') {
+            alert(m);
+        }
+    </script>
 </head>
 <body>
 <form action="/post/write" method="post" enctype="multipart/form-data">
@@ -14,7 +20,7 @@
 
     <div class="filebox">
         <br>
-        <input type="file" name="attachments" id="attachments" multiple><br>
+        <input type="file" name="p_multipartFiles" id="p_multipartFiles" multiple><br>
         <input type="text" class="upload-name" value="선택된 파일" readonly>
     </div>
 

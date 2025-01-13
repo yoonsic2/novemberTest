@@ -17,7 +17,9 @@
     });
 </script>
 <body>
+<th:block th:if="${session.a_id != null}">
     <h2 th:text="${session.a_id}+' 님 환영합니다.'"></h2>
+</th:block>
     <div class="login">
         <!-- a태그 는 무조건 Get방식! => 자동적으로 겟맵핑 떠올려 -->
         <a th:href="@{/account/login}" th:text="로그인"></a>

@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,11 +12,9 @@ import java.util.List;
 @Builder
 @Accessors(chain=true)
 
-public class PostDto {
+public class PostFileDto {
+    private String pf_originalname;
     private int p_number;
-    private String a_id;
-    private String p_title;
-    private String p_contents;
+    private String pf_systemname;
 
-    private List<MultipartFile> p_multipartFiles;
 }
