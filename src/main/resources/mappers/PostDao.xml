@@ -7,6 +7,18 @@
         VALUES (NULL, #{a_id}, #{p_title}, #{p_contents})
     </update>
 
+    <select id="getPostList" resultType="com.namesic.novembertest.dto.PostDto">
+        SELECT *
+        FROM POST
+        <choose>
+            <when test="page_keyword != null and page_keyword != ''">
+                WHERE P_TITLE LIKE CONCAT('%', #{page_keyword}, '%')
+            </when>
+        </choose>
+        ORDER BY P_NUMBER DESC
+        LIMIT #{page_number}, 10
+    </select>
+
 
     <insert id="postFileInsert">
         INSERT INTO POSTFILE

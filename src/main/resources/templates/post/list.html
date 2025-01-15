@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,6 +13,33 @@
 </head>
 <body>
 <h1>list.html</h1>
-<a th:href="@{/post/write}" th:text="글작성"></a>
+<a th:href="@{/}" th:text="메인화면"></a><br>
+<form action="">
+    <label> 검색: </label>
+    <input type="text" name="keyword">
+    <input type="button" value="검색">
+</form>
+<table>
+    <tr>
+        <td> 글번호 </td>
+        <td> 작성자 </td>
+        <td> 제목 </td>
+    </tr>
+    <th:block th:if="${#lists.isEmpty(postList)}">
+        <td colspan="4"> 게시글이 없습니다. </td>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(postList)}">
+        <th:block th:each="post:${postList}">
+            <tr>
+                <td th:text="${post.p_number}"></td>
+                <td th:text="${post.a_id}"></td>
+                <td th:text="${post.p_title}"></td>
+            </tr>
+        </th:block>
+    </th:block>
+</table>
+<div class="page_number">
+</div>
+<a th:href="@{/post/write}" th:text="글작성"></a><br>
 </body>
 </html>

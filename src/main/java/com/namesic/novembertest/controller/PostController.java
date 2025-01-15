@@ -1,5 +1,6 @@
 package com.namesic.novembertest.controller;
 
+import com.namesic.novembertest.dto.PageDto;
 import com.namesic.novembertest.dto.PostDto;
 import com.namesic.novembertest.service.AccountService;
 import com.namesic.novembertest.service.PostService;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,8 @@ public class PostController {
     private final PostService pSer;
 
     @GetMapping("/list")
-    public String list() {
+    public String list(PageDto pageDto ,Model model) {
+        model.addAttribute("postList",pSer.getPostList(pageDto));
         return "post/list";
     }
 

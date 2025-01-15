@@ -1,6 +1,7 @@
 package com.namesic.novembertest.service;
 
 import com.namesic.novembertest.dao.PostDao;
+import com.namesic.novembertest.dto.PageDto;
 import com.namesic.novembertest.dto.PostDto;
 import com.namesic.novembertest.dto.PostFileDto;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,5 +45,9 @@ public class PostService {
         }else {
             return false;
         }
+    }
+
+    public List<PostDto> getPostList(PageDto pageDto) {
+        return pDao.getPostList(pageDto);
     }
 }
