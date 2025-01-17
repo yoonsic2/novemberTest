@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.namesic.novembertest.dao.PostDao">
 
+
     <update id="postUpload" parameterType="postDto" useGeneratedKeys="true" keyProperty="p_number">
         INSERT INTO POST
         VALUES (NULL, #{a_id}, #{p_title}, #{p_contents})
     </update>
+
 
     <select id="getPostList" resultType="com.namesic.novembertest.dto.PostDto">
         SELECT *
@@ -17,6 +19,18 @@
         </choose>
         ORDER BY P_NUMBER DESC
         LIMIT #{page_number}, 10
+    </select>
+
+
+    <select id="getPostDetail" resultType="com.namesic.novembertest.dto.PostDto">
+        SELECT * FROM POST WHERE P_NUMBER = #{pNumber}
+    </select>
+
+
+    <select id="getPostFiles" resultType="java.lang.String">
+        SELECT PF_SYSTEMNAME
+        FROM POSTFILE
+        WHERE P_NUMBER = #{pNumber}
     </select>
 
 

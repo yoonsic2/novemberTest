@@ -5,6 +5,7 @@ import com.namesic.novembertest.dto.PageDto;
 import com.namesic.novembertest.dto.PostDto;
 import com.namesic.novembertest.dto.PostFileDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 
@@ -48,6 +50,16 @@ public class PostService {
     }
 
     public List<PostDto> getPostList(PageDto pageDto) {
+        pageDto.setPage_number((pageDto.getPage_number() - 1) * 10);
+        log.info("{}",pageDto.getPage_number());
         return pDao.getPostList(pageDto);
+    }
+
+    public PostDto getPostDetail(int pNumber) {
+        return pDao.getPostDetail(pNumber);
+    }
+
+    public List<String> getPostFiles(int pNumber) {
+        return pDao.getPostFiles(pNumber);
     }
 }

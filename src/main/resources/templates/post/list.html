@@ -14,10 +14,11 @@
 <body>
 <h1>list.html</h1>
 <a th:href="@{/}" th:text="메인화면"></a><br>
-<form action="">
+<form action="/post/list">
     <label> 검색: </label>
-    <input type="text" name="keyword">
-    <input type="button" value="검색">
+    <input type="hidden" name="page_number" value="1">
+    <input type="text" name="page_keyword">
+    <input type="submit" value="검색">
 </form>
 <table>
     <tr>
@@ -33,7 +34,7 @@
             <tr>
                 <td th:text="${post.p_number}"></td>
                 <td th:text="${post.a_id}"></td>
-                <td th:text="${post.p_title}"></td>
+                <td><a th:href="@{/post/detail(p_number=${post.p_number})}" th:text="${post.p_title}"></a></td>
             </tr>
         </th:block>
     </th:block>
@@ -42,4 +43,15 @@
 </div>
 <a th:href="@{/post/write}" th:text="글작성"></a><br>
 </body>
+<script>
+    let pageStart = Math.floor((`[[${param.page_number}]]` - 1) / 10) * 10;
+    let keyword = `[[${param.page_keyword}]]`;
+    if(pageStart > 0){
+        $('.page_number').append(`<a href="/post/list?page_number=${pageStart}&page_keyword=${keyword}">[<]</a>`);
+    }
+    for(let i=1; i<=10; i++){
+        $('.page_number').append(`<a href="/post/list?page_number=${pageStart + i}&page_keyword=${keyword}">[${pageStart + i}]</a>`);
+    }
+    $('.page_number').append(`<a href="/post/list?page_number=${pageStart + 11}&page_keyword=${keyword}">[>]</a>`);
+</script>
 </html>

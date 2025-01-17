@@ -12,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 
 @Controller
@@ -47,6 +50,15 @@ public class PostController {
             redirectAttributes.addFlashAttribute("msg", "업로드 실패");
             return "redirect:/post/write";
         }
+    }
+
+    @GetMapping("/detail")
+    public String detail(PostDto pDto, Model model) {
+        pDto = pSer.getPostDetail(pDto.getP_number());
+        model.addAttribute("post", pDto);
+        List<String> postfiles = pSer.getPostFiles(pDto.getP_number());
+        model.addAttribute("postfiles", postfiles);
+        return "post/detail";
     }
 
 }

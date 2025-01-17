@@ -14,4 +14,8 @@ public interface PostDao {
     boolean postFileInsert(PostFileDto postFileDto);
 
     List<PostDto> getPostList(PageDto pageDto);
+
+    PostDto getPostDetail(int pNumber);
+
+    List<String> getPostFiles(int pNumber);
 }
