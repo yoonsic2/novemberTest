@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
+        //게시글 업로드 실패하면 msg 줄거야
         const m = '[[${msg}]]';
         if (m != '') {
             alert(m);
@@ -12,6 +13,8 @@
     </script>
 </head>
 <body>
+<!-- action, method 를 통해서 컨트롤러에 PostMapping 으로 write 간다. -->
+<!-- enctype="multipart/form-data" : request 많은 타입까지 담기 위해서 -->
 <form action="/post/write" method="post" enctype="multipart/form-data">
     <h1>write.html</h1>
     <input type="hidden" name="a_id" th:value="${session.account?.a_id}">
@@ -20,6 +23,7 @@
 
     <div class="filebox">
         <br>
+        <!-- 첨부파일 영역 이 부분은 외워, 위에 enctype 과 짝이 돼. -->
         <input type="file" name="p_multipartFiles" id="p_multipartFiles" multiple><br>
         <input type="text" class="upload-name" value="선택된 파일" readonly>
     </div>

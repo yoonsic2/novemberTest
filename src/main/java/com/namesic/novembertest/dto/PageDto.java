@@ -15,4 +15,5 @@ import lombok.experimental.Accessors;
 public class PageDto {
     private int page_number;
     private String page_keyword;
+    private int start_postNum;
 }

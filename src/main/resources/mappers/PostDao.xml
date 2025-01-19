@@ -9,6 +9,11 @@
     </update>
 
 
+<!--    MyBatis 문법) choose when test= / 세트임 (조건문)-->
+<!--    page_keyword 가 비어있지 않다면 = 키워드가 들어 있다면-->
+<!--    where 절 을 포함해서 실행해라.-->
+<!--    where = P_TITLE 에 %(뭐든) page_keyword %(뭐든) 가 있다면-->
+<!--    P_NUMBER 를 DESC 해라 근데, LIMIT start_postNum : 첫번째 글에서 10개-->
     <select id="getPostList" resultType="com.namesic.novembertest.dto.PostDto">
         SELECT *
         FROM POST
@@ -18,7 +23,7 @@
             </when>
         </choose>
         ORDER BY P_NUMBER DESC
-        LIMIT #{page_number}, 10
+        LIMIT #{start_postNum}, 10
     </select>
 
 

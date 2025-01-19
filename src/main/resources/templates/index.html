@@ -6,17 +6,21 @@
     <title>Title</title>
 </head>
 <script>
+    //session 에 a_id 담겨있어? 즉 = 로그인 됐어?
     $(() => {
+        //로그인 됐으면 div class = login 안보이고 / div class = logout 보여
         if(`[[${session.a_id}]]`){
             $('.login').css('display', 'none');
             $('.logout').css('display', 'block');
         }else{
+            //반대겠죠?
             $('.login').css('display', 'block');
             $('.logout').css('display', 'none');
         }
     });
 </script>
 <body>
+<!-- 타임리프 문법 th:if="${session.a_id != null}" 세션에 아이디가 null 아니라면! -->
 <th:block th:if="${session.a_id != null}">
     <h2 th:text="${session.a_id}+' 님 환영합니다.'"></h2>
 </th:block>
@@ -26,7 +30,10 @@
         <a th:href="@{/account/join}" th:text="회원가입"></a>
     </div>
     <div class="logout">
+        <!-- 로그아웃 이 보인다는건 = 로그인이 됐다는것, 게시판을 볼 수 있다는 것. -->
         <a th:href="@{/account/logout}" th:text="로그아웃"></a>
+        <!-- Get 방식! -> PostController 에서 list 로!  -->
+        <!-- 근데 게시판 간다면 우선 1페이지 와 검색어가 없는 페이지 가 우선 나오겠지?  -->
         <a th:href="@{/post/list?page_number=1&page_keyword=}" th:text="게시판"></a>
     </div>
 </body>
