@@ -44,9 +44,13 @@ public class AccountController {
         return "account/join";
     }
     @PostMapping("/idCheck")
+    //return -> json(js object 형식이 같음) 타입으로 바꿔줌
     @ResponseBody
+    //RequestBody :axios 에서 post 방식으로 보낼때, json 을 찢어서 Dto 에 맞춰서 넣어줌 (즉, axios post json 입력)
     public boolean idCheck(@RequestBody AccountDto aDto){
+        //join.html 에서 내가 입력한 a_id 가지고 aDto 로 바꾸고 idCheck 해와 aSer 야
         if(aSer.idCheck(aDto.getA_id())){
+            //동기는 어떠한 목적지 로 보냄 / 비동기는 정보를 보냄 (json 형식으로)
             return false;
         }
         return true;
@@ -54,17 +58,22 @@ public class AccountController {
 
 
     //-------------------------------------------------------------------
+    //index.html 에서 get 으로 왔어요
     @GetMapping("/login")
     public String login() {
+        //login.html 로 가라
         return "account/login";
     }
+    //login.html 에서 왔어
     @PostMapping("/login")
     public String login(AccountDto aDto, HttpSession session) {
         String a_id = aSer.serviceLogin(aDto);
         if(a_id != null){
             session.setAttribute("a_id", a_id);
+            //redirect 는 컨트롤러 들리는거야 -> 컨트롤러 에서 / 얠 가는거다.
             return "redirect:/";
         }else{
+            //a_id 가 널 이야? 다시 로그인해
             return "account/login";
         }
     }

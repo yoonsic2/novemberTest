@@ -7,20 +7,29 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function idCheck() {
+            //{} = js object 임
             let data = {};
             const a_id = $('#a_id');
             data.a_id = a_id.val();
-
+            //get 쓸때 param 써야함 => request param 형식
+            //post 쓸때 ('컨트롤러 경로' , object) => json 형식
             axios.post('idCheck', data)
+                //axios 가 틀리지 않았다면, AccountController 갔다가 then 으로 옴
+                //res.data 에 return true or false 가 담김
                 .then(res => {
+                    //넘어온게 true?
                     if (res.data) {
+                        //jquery 문법
                         $('#idCheck').text('사용 가능한 아이디 입니다.');
                         $('#idCheckVal').val(1);
+                    //넘어온게 false?
                     } else {
                         $('#idCheck').text('이미 사용중인 아이디 입니다.');
                         $('#idCheckVal').val(0);
                     }
                 })
+                //AccountController 에서 true 던 false 던 우선은 넘어옴
+                //axios 가 틀려야 catch 임
                 .catch(err => {
                     $('#idCheck').text('');
                     $('#idCheckVal').val(0);
@@ -86,8 +95,10 @@
     </script>
 </head>
 <body>
+<!-- post 로 AccountController ("/join") / joinCheck() 에서 시작 -->
 <form th:action="@{/account/join}" id="joinFrm" method="post">
     아이디
+    <!-- onblur="idCheck()" 로 중복체크 -->
     <input type="text" name="a_id" onblur="idCheck()" id="a_id">
     <span id="idCheck"></span><br>
     <input id="idCheckVal" type="hidden" value="0">
@@ -95,6 +106,7 @@
     비밀번호
     <input type="password" name="a_pw" id="a_pw"><br>
     비밀번호 확인
+    <!-- onblur="pwCheck()" 로 비밀번호 확인 체크 -->
     <input type="password" id="a_pw2" onblur="pwCheck()">
     <span id="pwCheckLo"></span><br>
     <input id="pwCheckVal" type="hidden" value="0">

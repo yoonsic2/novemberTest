@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,6 +23,8 @@ import java.util.UUID;
 public class PostService {
     private final PostDao pDao;
 
+    //Transactional pDao 로 DB 에 가는 쿼리문들중 하나라도 실패하면 전부 롤백
+    @Transactional
     public boolean postUpload(PostDto pDto, String realPath) {
         //pDto(p_multipartFiles 제외) 가지고 postUpload(INSERT) 를 pDao 가 성공? 실패?
         boolean result = pDao.postUpload(pDto);
