@@ -9,7 +9,25 @@
     </update>
 
 
-<!--    MyBatis 문법) choose when test= / 세트임 (조건문)-->
+    <delete id="deleteReplies">
+        DELETE FROM REPLYS
+        WHERE P_NUMBER = #{pNumber}
+    </delete>
+
+
+    <delete id="deleteSystemFiles">
+        DELETE FROM POSTFILE
+        WHERE P_NUMBER = #{pNumber}
+    </delete>
+
+
+    <delete id="deletePost">
+        DELETE FROM POST
+        WHERE P_NUMBER = #{pNumber}
+    </delete>
+
+
+    <!--    MyBatis 문법) choose when test= / 세트임 (조건문)-->
 <!--    page_keyword 가 비어있지 않다면 = 키워드가 들어 있다면-->
 <!--    where 절 을 포함해서 실행해라.-->
 <!--    where = P_TITLE 에 %(뭐든) page_keyword %(뭐든) 가 있다면-->
@@ -39,9 +57,24 @@
     </select>
 
 
+    <select id="getReplyList" resultType="com.namesic.novembertest.dto.ReplyDto">
+        SELECT *
+        FROM REPLYS
+        WHERE P_NUMBER = #{pNumber}
+        ORDER BY R_NUMBER ASC
+    </select>
+
+
     <insert id="postFileInsert">
         INSERT INTO POSTFILE
         VALUES (#{pf_systemname}, #{p_number}, #{pf_originalname})
     </insert>
+
+
+    <insert id="insertReply">
+        INSERT INTO REPLYS
+        VALUES (#{p_number}, NULL, #{a_id}, #{r_content})
+    </insert>
+
 
 </mapper>

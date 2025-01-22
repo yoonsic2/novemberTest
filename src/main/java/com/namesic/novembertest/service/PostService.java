@@ -4,6 +4,7 @@ import com.namesic.novembertest.dao.PostDao;
 import com.namesic.novembertest.dto.PageDto;
 import com.namesic.novembertest.dto.PostDto;
 import com.namesic.novembertest.dto.PostFileDto;
+import com.namesic.novembertest.dto.ReplyDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -85,5 +86,42 @@ public class PostService {
     //첨부파일 가져오기 (있든 없든 우선 다)
     public List<String> getPostFiles(int pNumber) {
         return pDao.getPostFiles(pNumber);
+    }
+
+    public List<ReplyDto> insertReply(ReplyDto rDto) {
+        pDao.insertReply(rDto);
+        return pDao.getReplyList(rDto.getP_number());
+    }
+
+    public List<ReplyDto> getReplies(int pNumber) {
+        return pDao.getReplyList(pNumber);
+    }
+
+    @Transactional
+    public void deletePost(int pNumber, String realPath) throws Exception {
+        List<ReplyDto> replyList = pDao.getReplyList(pNumber);
+        if(replyList != null && replyList.size() > 0) {
+            if(!pDao.deleteReplies(pNumber)){
+                throw new Exception();
+            }
+        }
+
+        List<String> postFiles = pDao.getPostFiles(pNumber);
+        if(postFiles != null && postFiles.size() > 0) {
+            if(!pDao.deleteSystemFiles(pNumber)){
+                throw new Exception();
+            }
+        }
+
+        if(!pDao.deletePost(pNumber)){
+            throw new Exception();
+        }
+
+        if(postFiles != null && postFiles.size() > 0) {
+            for(String postFile : postFiles){
+                File file = new File(realPath + postFile);
+                file.delete();
+            }
+        }
     }
 }

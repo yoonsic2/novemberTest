@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,6 +23,64 @@
         </div>
     </th:block>
 </th:block>
+
+<table id="reply-list">
+    <tr>
+        <td th:text="작성자"></td>
+        <td th:text="내용"></td>
+    </tr>
+    <th:block th:unless="${#lists.isEmpty(replies)}">
+        <th:block th:each="reply : ${replies}">
+            <tr>
+                <td th:text="${reply.a_id}"></td>
+                <td th:text="${reply.r_content}"></td>
+            </tr>
+        </th:block>
+    </th:block>
+</table>
+
+<div>
+    <label>댓글입력 : </label><br>
+    <textarea name="r_content" id="r_content" style="width: 100%"></textarea><br>
+    <input type="button" value="댓글 등록" style="width: 100%" onclick="reply()">
+</div>
+
+<form th:action="@{/post/delete}">
+    <input type="hidden" name="p_number" th:value="${post.p_number}">
+    <input type="hidden" name="a_id" th:value="${post.a_id}">
+    <input type="submit" id="deleteButton" value="삭제" style="width: 100%">
+</form>
+
+<script>
+    function reply(){
+        let data= {};
+        const r_content = $('#r_content');
+        data.p_number = '[[${post.p_number}]]';
+        data.r_content = r_content.val();
+        axios.post('/post/reply', data)
+            .then(res => {
+                let replyList = '';
+                replyList += `<tr><td>작성자</td>
+                    <td>내용</td></tr>`;
+
+                for (let reply of res.data) {
+                    replyList += `<tr><td>${reply.a_id}</td>
+                        <td>${reply.r_content}</td></tr>`;
+                }
+                $('#reply-list').html(replyList);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        r_content.val('');
+    }
+
+    if(`[[${session.a_id}]]` != '[[${post.a_id}]]'){
+        $('#deleteButton').css('display', 'none')
+    }else{
+        $('#deleteButton').css('display', 'block')
+    }
+</script>
 
 </body>
 </html>
